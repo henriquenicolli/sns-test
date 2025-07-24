@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "4566:4566"   # Porta principal para todos os serviços
+      - "4571:4571"   # Legacy edge port (opcional)
+    environment:
+      - SERVICES=s3,sqs,sns,dynamodb
+      - DEBUG=1
+      - DEFAULT_REGION=us-east-1
+    volumes:
+      - "./init:/etc/localstack/init/ready.d"  # script/init loader
+      - "/var/run/docker.sock:/var/run/docker.sock"  # Necessário para LocalStack Pro, mas pode deixar mesmo na versão gratuita
